@@ -5,6 +5,14 @@ import sys
 import urllib
 import json
 
+# Cross platfrom terminal colors
+red = "\033[31m"
+green = "\033[32m"
+cyan = "\033[36m"
+purple = "\033[95m"
+reset = "\033[0m"
+bold = "\033[1m"
+underline = "\033[4m"
 class utils(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -98,7 +106,13 @@ class utils(commands.Cog):
     @commands.command()
     async def update(self, ctx):
         """Checks the selfbot for updates"""
-        print(cyan + "Checking for updates..." + reset)
+        print(cyan + "Grabbing current version number" + reset)
+        # Load the version number from data/version.json
+        with open('data/version.json') as f:
+            data = json.load(f)
+            __version__ = data['version']
+            print(green + "Current version: " + reset + __version__)
+        print(cyan + "Grabbing latest version number" + reset)
         # Github repo is https://github.com/GoByeBye/Ares
         # Check the raw file on github https://github.com/GoByeBye/Ares/data/version.json against __version__ of selfbot.py
         # if version differs run update.py and close selfbot.py
@@ -109,6 +123,7 @@ class utils(commands.Cog):
             version = version.decode("utf-8")
             version = json.loads(version)
             version = version["version"]
+            print(cyan + "Newest version is: " + reset + str(version))
             if version != __version__:
                 print(green + "A new update is available!" + reset)
                 print(green + "Updating..." + reset)
