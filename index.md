@@ -1,37 +1,70 @@
-## Welcome to GitHub Pages
+<p align="center">
+  <a href="https://daddie.dev">
+    <img src="https://i.imgur.com/ob8Mb1U.png" max-height="500">
+  </a>
+</p>
 
-You can use the [editor on GitHub](https://github.com/GoByeBye/Ares/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+&nbsp;
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
+![GitHub all releases](https://img.shields.io/github/downloads/GoByeBye/Ares/total?style=for-the-badge)![GitHub](https://img.shields.io/github/license/GoByeBye/Ares?style=for-the-badge)[![GitHub issues](https://img.shields.io/github/issues/GoByeBye/Ares?style=for-the-badge)](https://github.com/GoByeBye/Ares/issues)[![GitHub stars](https://img.shields.io/github/stars/GoByeBye/Ares?style=for-the-badge)](https://github.com/GoByeBye/Ares/stargazers)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
-```markdown
-Syntax highlighted code block
+# Preview
+Coming soon.
 
-# Header 1
-## Header 2
-### Header 3
+# Insallation
+## Windows
+<Details>
+  <Summary>
+  How to install Ares on Windows
+  </Summary>
 
-- Bulleted
-- List
+On windows, you simply run install.bat and it will attempt to install all the pre-requisites automatically. By attempting to use python without having to rely on PATH
 
-1. Numbered
-2. List
+If the script fails make sure you have both python and pip added to PATH.
+You can make sure you've done this by running the python installer again and checking the checkbox that says `Add python 3.X to PATH` (See image below)
+![Python installer](https://i.imgur.com/kStHlBg.png)
 
-**Bold** and _Italic_ and `Code` text
+### Ez install from terminal
+```batch
+git clone https://github.com/GoByeBye/Ares.git
+cd Ares
+install.bat
+```
+</Details>
 
-[Link](url) and ![Image](src)
+
+## Linux
+<Details>
+  <Summary> Linux install </Summary>
+On linux it's a little bit different. You need to install python3 and pip3.
+You can try to run the install script located in .\install.sh NOTE: this script is not tested
+
+### How to run install.sh
+```bash
+# Download Ares
+git clone https://github.com/GoByeBye/Ares.git
+cd Ares
+# Install requirements
+sudo chmod +x ./install.sh
+sudo ./install.sh
+```
+</Details>
+&nbsp;
+
+# Running
+This works on both platforms just go to your terminal and type
+```bash
+# windows
+python selfbot.py
+# Linux
+python3 selfbot.py
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
-### Jekyll Themes
+## Thanks
+<!-- Github logo -->
+<a href="https://github.com/"><img src=https://github.githubassets.com/images/modules/logos_page/Octocat.png width=120></a>
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/GoByeBye/Ares/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+A **huge** thanks to Github for letting me use [github co-pilot](https://copilot.github.com) it's saved me so much time
