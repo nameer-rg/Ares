@@ -8,7 +8,6 @@ from discord import Color
 from discord.ext import commands
 from ext.context import CustomContext
 from ext.helpformatter import helpformatter
-from ext.helpformatter import helpformatter
 import json
 import os
 import datetime
