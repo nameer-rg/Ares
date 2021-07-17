@@ -1,6 +1,15 @@
 import discord
 from discord.ext import commands
 
+# Cross platfrom terminal colors
+red = "\033[31m"
+green = "\033[32m"
+cyan = "\033[36m"
+purple = "\033[95m"
+reset = "\033[0m"
+bold = "\033[1m"
+underline = "\033[4m"
+
 class Source(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
