@@ -95,7 +95,7 @@ class Selfbot(commands.Bot):
     # Green = Success | Red = Error
 
     def load_extensions(self):
-        for extension in ("source", "utils",):
+        for extension in ("source", "utils"):
             try:
                 self.load_extension("cogs." + extension)
                 print(green + "Loaded cog: " + reset + extension)
