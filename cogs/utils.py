@@ -5,18 +5,23 @@ import os
 class utils(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-    
-    @commands.command()
+
+
+
+    # Returns the latency of the selfbot
+    @commands.command(name='ping', aliases=['latency'])
     async def ping(self, ctx):
-        """Gives you client latency"""
-        start = time.perf_counter()
-        message = await ctx.send("Ping...")
-        end = time.perf_counter()
-        duration = (end - start) * 1000
-        await message.edit(
-            content="Pong! :ping_pong:\nLatency is **{:.2f}ms**".format(duration)
-        )
-        await ctx.message.delete()
+        """Pong! Returns your ping"""
+        # Get the latency
+        latency = self.bot.latency
+        # Create the embed
+        embed = discord.Embed(title="Pong!", description=f"Latency: {latency * 1000:.0f}ms", color=0x00ff00)
+        # Send the embed
+        await ctx.send(embed=embed)
+        
+
+
+
 
     @commands.command()
     # Reloads all of the cogs
