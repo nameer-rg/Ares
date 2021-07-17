@@ -1,6 +1,6 @@
 # Version and author
 __author__ = "Daddie0 || https://daddie.dev"
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 
 
 import discord
@@ -45,16 +45,10 @@ except:
     print("\n" + red + "Please run setupWizard.py to create one!" + reset + "\n")
     sys.exit(1)
 
-# Import all variables from the config file.
-with open("data/config.json") as f:
-    data = json.load(f)
-    token = data["token"]
-    prefix = data["prefix"]
-    autoupdate = data["autoupdate"]
 
 
-# Check if autoupdate is enabled.
-if autoupdate == True:
+# autoupdate script 
+def autoupdater():
     print(green + "Autoupdate is enabled!" + reset)
     print(cyan + "Checking for updates..." + reset)
     # Github repo is https://github.com/GoByeBye/Ares
@@ -78,6 +72,23 @@ if autoupdate == True:
         print(red + "Error: Could not check for updates." + reset)
         print(red + "Please check your internet connection." + reset)
         sys.exit()
+
+
+
+
+
+# Import all variables from the config file.
+with open("data/config.json") as f:
+    data = json.load(f)
+    token = data["token"]
+    prefix = data["prefix"]
+    autoupdate = data["autoupdate"]
+
+
+# Check if autoupdate is enabled. If yes run the update
+if autoupdate == True:
+    autoupdater()
+
 
 
 
@@ -147,9 +158,11 @@ class Selfbot(commands.Bot):
         guilds = len(self.guilds)
         channels = len([c for c in self.get_all_channels()])
         
-        # Get elapsed time since the selfbot was started
+        # Get elapsed time since the selfbot started in seconds and ms. Rounded to the last 3 decimals.
         elapsed = datetime.datetime.now() - starttime
-        elapsed = str(elapsed).split(".")[0]
+        elapsed = elapsed.seconds + (elapsed.microseconds / 10**6)
+        elapsed = round(elapsed, 3)
+
 
         # Check if user is on the blacklist which can be found here https://gobyebye.github.io/cdn/b.json
         # If true exit the Selfbot else run like normal
@@ -169,11 +182,11 @@ class Selfbot(commands.Bot):
 
         # Print ascii art of Ares
         print(f"""
-{green}
+{red}
               ...                            
              ;::::;                           
            ;::::; :;                          
-         ;:::::'   :;           Your time has come              
+         ;:::::'   :;           {reset}Your time has come {red}          
         ;:::::;     ;.                        
        ,:::::'       ;           OOO\         
        ::::::;       ;          OOOOO\        
@@ -190,7 +203,7 @@ class Selfbot(commands.Bot):
  `:::::`::::::::::::;'`:;::#                O 
   `:::::`::::::::;' /  / `:#                  
    ::::::`:::::;'  /  /   `#   
-
+{green}
         Version > {reset}{__version__}
         {green}Made by > {reset}{__author__}
 
@@ -207,7 +220,6 @@ Logged in as: {reset}{self.user.name}{green} - {reset}{self.user.id}
 {cyan}Finished starting up in {reset}{elapsed} second(s)
 {green}________________________________________________________________________________________________________{reset}
         """)
-
         print(green + "Conneced to the Discord  API" + reset)
 
 
