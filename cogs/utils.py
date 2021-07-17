@@ -1,6 +1,9 @@
 import discord
 from discord.ext import commands
 import os
+import sys
+import urllib
+import json
 
 class utils(commands.Cog):
     def __init__(self, bot):
@@ -90,7 +93,33 @@ class utils(commands.Cog):
         """Restarts the bot"""
         await ctx.send(f"Restarting...")
         os.execv(sys.executable, ['python'] + sys.argv)
-        
+
+    # Checks the bot for updates using autoupdater in selfbot.py
+    @commands.command()
+    async def update(self, ctx):
+        """Checks the selfbot for updates"""
+        print(cyan + "Checking for updates..." + reset)
+        # Github repo is https://github.com/GoByeBye/Ares
+        # Check the raw file on github https://github.com/GoByeBye/Ares/data/version.json against __version__ of selfbot.py
+        # if version differs run update.py and close selfbot.py
+        try:
+            import urllib.request
+            version = urllib.request.urlopen("https://raw.githubusercontent.com/GoByeBye/Ares/master/data/version.json").read()
+            
+            version = version.decode("utf-8")
+            version = json.loads(version)
+            version = version["version"]
+            if version != __version__:
+                print(green + "A new update is available!" + reset)
+                print(green + "Updating..." + reset)
+                os.system("python update.py")
+                sys.exit()
+            else:
+                print(green + "You are running the latest version!" + reset)
+        except:
+            print(red + "Error: Could not check for updates." + reset)
+            print(red + "Please check your internet connection." + reset)
+            sys.exit()
 
 def setup(bot):
     bot.add_cog(utils(bot))
