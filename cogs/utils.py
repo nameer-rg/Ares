@@ -1,32 +1,90 @@
 import discord
 from discord.ext import commands
+import os
 
 class utils(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
     @commands.command()
-    # Pings and retunrs the latency to Discord
     async def ping(self, ctx):
-        """Pings the bot and returns the latency"""
-        # Latency is the time it takes to send a message to Discord
-        latency = ctx.bot.latency
-        # Latency is returned in milliseconds
-        latency = latency * 1000
-        # Latency is converted to a string
-        latency = str(latency)
-        # The latency is sent to the user
-        await ctx.send(f'Pong! `{latency}ms`')
+        """Gives you client latency"""
+        start = time.perf_counter()
+        message = await ctx.send("Ping...")
+        end = time.perf_counter()
+        duration = (end - start) * 1000
+        await message.edit(
+            content="Pong! :ping_pong:\nLatency is **{:.2f}ms**".format(duration)
+        )
+        await ctx.message.delete()
 
     @commands.command()
-    # Restarts the selfbot
+    # Reloads all of the cogs
+    async def reload(self, ctx, *, cog=None):
+        """Reloads one or all of the cogs in
+
+        Paramaters:
+            • cog - The name of the cog you want to reload e.g crypto
+            If not name is specified it'll reload all cogs"""
+        if not cog:
+            # If no cog is specified then reload all cogs
+            async with ctx.typing():
+                embed = discord.Embed(
+                    title=f'Reloading all cogs',
+                    color=discord.Color.green(),
+                    timestamp=ctx.message.created_at
+                )
+                # For ext in ./cogs/ which ends with .py and does not start with "_" 
+                # Try to unload then reload each cog then add a field to then embed which says it reloaded the cog
+                for ext in [f for f in ctx.bot.extensions if f.endswith('.py') and not f.startswith('_')]:
+                    try:
+                        self.bot.unload_extension(f"cogs.{ext[:-3]}")
+                        self.bot.load_extension(f"cogs.{ext[:-3]}")
+                        print(green + "Loaded cog " + reset + ext)
+                        embed.add_field(name=f"Reloaded {ext}", value="\uFEFF", inline=False)
+                    except Exception as e:
+                        embed.add_field(name=f"Failed to reload {ext}", value=f"```{e}```", inline=False)
+                await ctx.send(embed=embed)
+        else:
+            # reload the specific cog
+            async with ctx.typing():
+                embed = discord .Embed(
+                    title=f'Reloading {cog}',
+                    color=discord.Color.green(),
+                    timestamp=ctx.message.created_at
+                )
+
+                ext = f"{cog.lower()}.py"
+
+                if not os.path.exists((f"cogs/{ext}")):
+                    embed.add_field(
+                        name=f"Failed to reload " + ext,
+                        value = "because it does not exist",
+                        inline=False
+                    )
+                
+                if ext.endswith(".py") and not ext.startswith("_"):
+                    try:
+                        self.bot.unload_extension(f"cogs.{ext[:-3]}")
+                        self.bot.load_extension(f"cogs.{ext[:-3]}")
+                        embed.add_field(
+                            name=f"Reloaded: `{ext}`", value="\uFEFF", inline=False
+                        )
+                    except Exception:
+                        desired_trace = traceback.format_exc()
+                        embed.add_field(
+                            name=f"Failed to reload: `{ext}`",
+                            value=desired_trace,
+                            inline=False,
+                        )
+                        await ctx.send(embed=embed)
+
+    @commands.command()
+    #Restarts the Bot
     async def restart(self, ctx):
         """Restarts the bot"""
-        # Restarts the bot
-        await ctx.send('Restarting...')
-        await ctx.bot.logout()
-        await ctx.bot.close()
-        await ctx.bot.start()
+        await ctx.send(f"Restarting...")
+        os.execv(sys.executable, ['python'] + sys.argv)
         
 
 def setup(bot):
