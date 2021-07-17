@@ -38,6 +38,8 @@ try:
     subprocess.call(["git", "pull"])
     print(green + "Updated!" + reset)
     print(green + "You may need to restart the selfbot by running python selfbot.py." + reset)
+    # Run selfbot again
+    os.system("python selfbot.py")
 except OSError:
     print(red + "Error: git pull failed. Please try again." + reset)
     exit()
