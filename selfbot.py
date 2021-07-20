@@ -277,6 +277,11 @@ Logged in as: {reset}{self.user.name}#{self.user.discriminator}{green} - {reset}
                 if message.content.startswith(self.command_prefix):
                     await message.delete()
                     await self.process_commands(message)
+    
+    # Error handling for commands
+    async def on_command_error(self, ctx, exception):
+        # Really general error handling for commands
+        logging.error(exception)
 
 if __name__ == "__main__":
     Selfbot.init()
