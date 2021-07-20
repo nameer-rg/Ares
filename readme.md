@@ -7,8 +7,23 @@
 &nbsp;
 
 
-![GitHub all releases](https://img.shields.io/github/downloads/GoByeBye/Ares/total?style=for-the-badge)![GitHub](https://img.shields.io/github/license/GoByeBye/Ares?style=for-the-badge)[![GitHub issues](https://img.shields.io/github/issues/GoByeBye/Ares?style=for-the-badge)](https://github.com/GoByeBye/Ares/issues)[![GitHub stars](https://img.shields.io/github/stars/GoByeBye/Ares?style=for-the-badge)](https://github.com/GoByeBye/Ares/stargazers)
+[![License]][License Link]
+[![Issues]][Issues Link]
+[![Stars]][Stars Link]
+[![Discord]][Discord Link]
 
+
+[License]: https://img.shields.io/github/license/GoByeBye/Ares?color=red&style=for-the-badge
+[License Link]: https://github.com/GoByeBye/Ares/blob/master/LICENSE
+
+[Issues]: https://img.shields.io/github/issues/GoByeBye/Ares?color=red&style=for-the-badge
+[Issues Link]: https://github.com/GoByeBye/Ares/issues
+
+[Stars]: https://img.shields.io/github/stars/GoByeBye/Ares?color=red&style=for-the-badge
+[Stars Link]: https://github.com/GoByeBye/Ares/stargazers
+
+[Discord]: https://img.shields.io/discord/743205482507927568?color=red&label=Discord&style=for-the-badge
+[Discord Link]: https://discord.gg/xcwP9GX8sV
 
 # Preview
 Coming soon.
