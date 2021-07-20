@@ -1,6 +1,6 @@
 # Version and author
 __author__ = "Daddie0 || https://daddie.dev"
-__version__ = "0.0.3"
+__version__ = "0.1.0"
 
 
 import discord
