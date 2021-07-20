@@ -159,7 +159,7 @@ class Selfbot(commands.Bot):
                     # Automatically run setupWizard.py in case no token is set
                     logging.critical("No token found, running setupWizard.py")
                     os.system("python3 setupWizard.py")
-                    exit()
+                    sys.exit()
             else:
                 token = config.get("token").strip('"')
         return os.environ.get("token") or token
