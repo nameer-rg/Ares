@@ -1,8 +1,10 @@
 # Imort all libraries used by setupWizard.py
-import re
-import os
-import sys
 import json
+import os
+import re
+import sys
+
+# We won't use logging libraries in this bit of the project because we don't have the configuration made probably
 
 
 # Cross platfrom terminal colors (global variables)
@@ -141,7 +143,31 @@ def run_wizard():
         print(red + "Failed to create new config file" + reset)
         print(red + "Please make sure you have write permissions" + reset)
         print(red + "Then run setup wizard again" + reset)
+
+    # Create logging configuration file
+    # Accepted values are: debug, info, warning, error, critical
+    # If data/logger.json already exists overwrite it
+    print(cyan + "Now I will create a logging configuration file" + reset)
+    print(cyan + "Please enter the level of logging you'd like to receive" + reset)
+    print(cyan + "Valid logging values are: debug, info, warning, error, critical" + reset)
+    print(cyan + "Press enter to keep the default value (error)" + reset)
+    logging = input(cyan + "Logging: " + reset)
+    if logging == "":
+        logging = "error"
+    try:
+        with open("data/logger.json", "w") as f:
+            data = {
+                "logging": logging
+            }
+            json.dump(data, f)
+            print(green + "Successfully created a new logging configuration file" + reset)
+    except Exception as e:
+        print(red + "Error: " + str(e) + reset)
+        print(red + "Failed to create new logging configuration file" + reset)
+        print(red + "Please make sure you have write permissions" + reset)
+        print(red + "Then run setup wizard again" + reset)
     
+    cls()
     # Ask the user to press any button to exit the setupWizard
     input(purple + "Press any button to exit the setup wizard" + reset)
     # Safely exit

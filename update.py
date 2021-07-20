@@ -31,7 +31,7 @@ except OSError:
     print(red + "Error: git is not installed. Please install git and try again." + reset)
     print("Windows git download link" + cyan + " https://git-scm.com/download/win" + reset)
     print("Linux install command" + cyan + " sudo apt-get install git" + reset)
-    exit()
+    sys.exit()
 
 # Try to pull newest version
 try:
@@ -42,4 +42,4 @@ try:
     os.system("python selfbot.py")
 except OSError:
     print(red + "Error: git pull failed. Please try again." + reset)
-    exit()
+    sys.exit()

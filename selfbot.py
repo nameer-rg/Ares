@@ -1,6 +1,6 @@
 # Version and author
 __author__ = "Daddie0 || https://daddie.dev"
-__version__ = "0.0.3"
+__version__ = "0.1.0"
 
 
 import discord
@@ -16,14 +16,37 @@ import sys
 import urllib
 import re
 
-# start datetime timer
-starttime = datetime.datetime.now()
-
-def cls():
-    os.system('cls' if os.name=='nt' else 'clear')
+# Logging libraries
+import logging
+import coloredlogs
 
 
-cls()
+# Import logger configuration from data/logger.json
+# if the configuration is empy or does not exist overwrite with default configuration
+# { "level": "ERROR" }
+def initLogger():
+    try:
+        with open('data/logger.json', 'r') as f:
+            config = json.load(f)
+            if not config['level']:
+                config['level'] = 'WARNING'
+            else:
+                config['level'] = config['level'].upper()
+                # Initialize coloredlogs
+                coloredlogs.install(level=config['level'])
+    except:
+        with open('data/logger.json', 'w') as f:
+            config = {
+                'level': 'WARNING'
+            }
+            json.dump(config, f)
+            # restart the bot
+            print("Restarting")
+            os.execv(sys.executable, ['python'] + sys.argv)
+
+
+
+initLogger()
 
 # Cross platfrom terminal colors
 red = "\033[31m"
@@ -34,22 +57,35 @@ reset = "\033[0m"
 bold = "\033[1m"
 underline = "\033[4m"
 
+
+# start datetime timer
+starttime = datetime.datetime.now()
+
+def cls():
+    os.system('cls' if os.name=='nt' else 'clear')
+
+
+cls()
+
+
 # Try to read data/config.json
-# If it fails ask user to run setupWizard.py
+# If it fails ask user to run setupWizard.py using logging level error
 try:
     with open("data/config.json") as f:
         data = json.load(f)
 except:
-    print("\n" + red + "Error: No data/config.json file found!" + reset)
-    print("\n" + red + "Please run setupWizard.py to create one!" + reset + "\n")
+    logging.critical("Failed to read data/config.json\nRunning the setup wizard")
+    # Run setupWizard.py
+    os.system("python setupWizard.py")
+    # Gracefully exit
     sys.exit(1)
 
 
 
 # autoupdate script 
 def autoupdater():
-    print(green + "Autoupdate is enabled!" + reset)
-    print(cyan + "Checking for updates..." + reset)
+    logging.info("Autoupdater is enabled")
+    logging.info("Checking for updates")
     # Github repo is https://github.com/GoByeBye/Ares
     # Check the raw file on github https://github.com/GoByeBye/Ares/data/version.json against __version__ of selfbot.py
     # if version differs run update.py and close selfbot.py
@@ -61,15 +97,15 @@ def autoupdater():
         version = json.loads(version)
         version = version["version"]
         if version != __version__:
-            print(green + "A new update is available!" + reset)
-            print(green + "Updating..." + reset)
+            logging.warning("A new version of the selfbot is available.")
+            logging.warning("Attempting to update automatically")
             os.system("python update.py")
             sys.exit()
         else:
-            print(green + "You are running the latest version!" + reset)
+            logging.info("You're already running the latest version")
     except:
-        print(red + "Error: Could not check for updates." + reset)
-        print(red + "Please check your internet connection." + reset)
+        logging.error("Could not check for update")
+        logging.error("Please check your internet connection") 
         sys.exit()
 
 
@@ -103,14 +139,13 @@ class Selfbot(commands.Bot):
 
     # Recursivley load cogs from cogs folder. Ignore cogs starting with "_" then import extension
     # Green = Success | Red = Error
-
     def load_extensions(self):
-        for extension in ("source", "utils"):
+        for extension in ("crypto", "source", "utils"):
             try:
                 self.load_extension("cogs." + extension)
-                print(green + "Loaded cog: " + reset + extension)
-            except Exception as e:
-                print(red + "Failed to load extension {}\n{}: {}".format(extension, type(e).__name__, e) + reset)
+                logging.info("Loaded cog: " + extension)
+            except:
+                logging.error("Error loading cog: " + extension)
                 
 
 
@@ -122,9 +157,9 @@ class Selfbot(commands.Bot):
             if config.get("token") == "":
                 if not os.environ.get("token"):
                     # Automatically run setupWizard.py in case no token is set
-                    print(red + "Error: No token set." + reset)
+                    logging.critical("No token found, running setupWizard.py")
                     os.system("python3 setupWizard.py")
-                    exit()
+                    sys.exit()
             else:
                 token = config.get("token").strip('"')
         return os.environ.get("token") or token
@@ -153,6 +188,7 @@ class Selfbot(commands.Bot):
             sys.exit(1)
 
     async def on_connect(self):
+        
         cls()
         guilds = len(self.guilds)
         channels = len([c for c in self.get_all_channels()])
@@ -172,7 +208,7 @@ class Selfbot(commands.Bot):
             r = json.loads(r)
             if r == self.user.id:
                 blacklisted = True
-                print(red + "You are blacklisted from using the selfbot, please contact the owner of the bot" + reset)
+                logging.critical("You are blacklisted from running the bot")
                 sys.exit(1)
         except:
             blacklisted = False
@@ -208,7 +244,7 @@ class Selfbot(commands.Bot):
 
 {green}________________________________________________________________________________________________________
 
-Logged in as: {reset}{self.user.name}{green} - {reset}{self.user.id}
+Logged in as: {reset}{self.user.name}#{self.user.discriminator}{green} - {reset}{self.user.id}
 {green}Prefix: {reset}{self.command_prefix}
 {green}Guilds: {reset}{guilds}
 {green}Channels: {reset}{channels}
@@ -219,7 +255,7 @@ Logged in as: {reset}{self.user.name}{green} - {reset}{self.user.id}
 {cyan}Finished starting up in {reset}{elapsed} second(s)
 {green}________________________________________________________________________________________________________{reset}
         """)
-        print(green + "Conneced to the Discord  API" + reset)
+        logging.info("Connected to the discord API")
 
 
     # Process the message using CustomContext subclass of discord.Context
