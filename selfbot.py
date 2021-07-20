@@ -190,8 +190,6 @@ class Selfbot(commands.Bot):
     async def on_connect(self):
         
         cls()
-        for i in (self.commands):
-            logging.info(f"Loaded command: %s" % i) 
         guilds = len(self.guilds)
         channels = len([c for c in self.get_all_channels()])
         
