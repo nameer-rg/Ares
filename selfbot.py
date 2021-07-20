@@ -140,12 +140,18 @@ class Selfbot(commands.Bot):
     # Recursivley load cogs from cogs folder. Ignore cogs starting with "_" then import extension
     # Green = Success | Red = Error
     def load_extensions(self):
-        for extension in ("crypto", "source", "utils"):
+        for extension in os.listdir("cogs"):
+            if extension.startswith("_"):
+                continue
+            # Remove .py from extension
+            extension = extension.replace(".py", "")
+            # Import the extension
             try:
                 self.load_extension("cogs." + extension)
                 logging.info("Loaded cog: " + extension)
-            except:
+            except Exception as e:
                 logging.error("Error loading cog: " + extension)
+                logging.error(e)
                 
 
 
