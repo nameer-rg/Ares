@@ -25,9 +25,17 @@
 [Discord]: https://img.shields.io/discord/743205482507927568?color=red&label=Discord&style=for-the-badge
 [Discord Link]: https://discord.gg/xcwP9GX8sV
 
-# Preview
-Coming soon.
+[PreviewChannel]: https://github.com/GoByeBye/Ares/blob/master/previews/hd8uBnWdsy.gif
 
+[PreviewWebhooks]: https://github.com/GoByeBye/Ares/blob/master/previews/gjUfy4olis.gif
+
+# Preview
+
+## Channel Deletion
+  ![PreviewChannel]
+  
+## Webhook spammer
+  ![PreviewWebhooks]
 # Insallation
 ## Windows
 <Details>
