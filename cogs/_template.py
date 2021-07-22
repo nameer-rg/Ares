@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+import logging
 
 # Cross platfrom terminal colors
 red = "\033[31m"
