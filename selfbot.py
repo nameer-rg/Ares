@@ -1,6 +1,6 @@
 # Version and author
 __author__ = "Daddie0 || https://daddie.dev"
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 
 import discord
@@ -33,7 +33,7 @@ def initLogger():
             else:
                 config['level'] = config['level'].upper()
                 # Initialize coloredlogs
-                coloredlogs.install(level=config['level'])
+                coloredlogs.install(level=config['level'], fmt="%(levelname)s | %(asctime)s | %(name)s | %(message)s")
     except:
         with open('data/logger.json', 'w') as f:
             config = {
@@ -47,6 +47,7 @@ def initLogger():
 
 
 initLogger()
+
 
 # Cross platfrom terminal colors
 red = "\033[31m"
@@ -127,6 +128,10 @@ if autoupdate == True:
 
 
 
+intents = discord.Intents.all()
+intents.members = True
+
+
 class Selfbot(commands.Bot):
     def __init__(self, **attrs):
         super().__init__(
@@ -134,6 +139,7 @@ class Selfbot(commands.Bot):
             self_bot=True,
             help_command=helpformatter(),
             guild_subscriptions=False,
+            intents=intents
         )
         self.load_extensions()
 
@@ -174,6 +180,7 @@ class Selfbot(commands.Bot):
     @classmethod
     def init(bot, token=None):
         """Stats the selfbot"""
+
         selfbot = bot()
         safe_token = token or selfbot.token.strip("")
         try:
@@ -277,6 +284,7 @@ Logged in as: {reset}{self.user.name}#{self.user.discriminator}{green} - {reset}
                 if message.content.startswith(self.command_prefix):
                     await message.delete()
                     await self.process_commands(message)
+                    
     
     # Error handling for commands
     async def on_command_error(self, ctx, exception):
