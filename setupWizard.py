@@ -127,6 +127,17 @@ def run_wizard():
     else:
         autoupdate = False
 
+    # Ask the user if they want to log how many times the user says the n word
+    # Default = True
+    print("Next, I need to know whether or not you'd like to log every time you say the n word")
+    print("Please enter 'y' or 'n' (Default y) ")
+    nword = input(cyan + "N-Word Logging: " + reset)
+    if nword.tolower is not "no" or "n":
+        nword = True
+    else:
+        nword = False
+
+
 
     # Dump the data to data/config.json
     try:
@@ -134,7 +145,8 @@ def run_wizard():
             data = {
                 "token": token,
                 "prefix": prefix,
-                "autoupdate": autoupdate
+                "autoupdate": autoupdate,
+                "nword": nword
             }
             json.dump(data, f)
             print(green + "Successfully created a new config file" + reset)

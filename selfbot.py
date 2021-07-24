@@ -58,6 +58,14 @@ reset = "\033[0m"
 bold = "\033[1m"
 underline = "\033[4m"
 
+# N Word regex
+# This was made explicitly for A Giant Pigeon you can thank him for this
+#
+# This regex is made to match the following:
+# ((?<!\w)[n][i][g]\w*(?!\w)
+regex = re.compile(r"((?<!\w)[n][i][g]\w*(?!\w))", re.IGNORECASE)
+
+# IF you think this regex is horrible to read, remember that I had to make it 
 
 # start datetime timer
 starttime = datetime.datetime.now()
@@ -110,16 +118,12 @@ def autoupdater():
         sys.exit()
 
 
-
-
-
 # Import all variables from the config file.
 with open("data/config.json") as f:
     data = json.load(f)
     token = data["token"]
     prefix = data["prefix"]
     autoupdate = data["autoupdate"]
-
 
 # Check if autoupdate is enabled. If yes run the update
 if autoupdate == True:
@@ -183,6 +187,7 @@ class Selfbot(commands.Bot):
 
         selfbot = bot()
         safe_token = token or selfbot.token.strip("")
+
         try:
             selfbot.run(safe_token, bot=False, reconnect=True)
         except discord.LoginFailure:
@@ -284,6 +289,22 @@ Logged in as: {reset}{self.user.name}#{self.user.discriminator}{green} - {reset}
                 if message.content.startswith(self.command_prefix):
                     await message.delete()
                     await self.process_commands(message)
+                elif regex.search(message.content) is not None:
+                    def wordHandler(amount):
+                        # Add to the count in data/count.json
+                        with open("data/count.json", "r") as f:
+                            count = json.load(f)
+
+                        count["count"] += amount
+                        with open("data/count.json", "w") as f:
+                            json.dump(count, f)
+
+                    words = regex.findall(message.content)
+                    amount = 0
+                    for word in words:
+                        amount += 1
+
+                    wordHandler(amount)
                     
     
     # Error handling for commands
