@@ -11,7 +11,7 @@ with open("./data/config.json") as f:
     config = json.load(f)
 
 token = config.get("token")
-headers = {"Authorization": "NjU4MDc1MjM2MTEzMDU1Nzkz.YP2kwA.Da4qKrHXAWdoGTJPvKAQ5NwSHas"}
+headers = {"Authorization": token} # Yes I did accidentally forget to remove the token from the last comitt
 url = "https://discord.com/api/v9/users/@me/relationships"
 
 class backups(commands.Cog):
