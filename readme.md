@@ -10,7 +10,7 @@
 [![License]][License Link]
 [![Issues]][Issues Link]
 [![Stars]][Stars Link]
-[![Discord]][Discord Link]
+[![Guilded]][Guilded Link]
 
 
 [License]: https://img.shields.io/github/license/GoByeBye/Ares?color=red&style=for-the-badge
@@ -22,8 +22,8 @@
 [Stars]: https://img.shields.io/github/stars/GoByeBye/Ares?color=red&style=for-the-badge
 [Stars Link]: https://github.com/GoByeBye/Ares/stargazers
 
-[Discord]: https://img.shields.io/discord/743205482507927568?color=red&label=Discord&style=for-the-badge
-[Discord Link]: https://discord.gg/xcwP9GX8sV
+[Guilded]: https://img.shields.io/discord/743205482507927568?color=red&label=Guilded&style=for-the-badge
+[Guilded Link]: https://www.guilded.gg/i/wEwg53qE?cid=b2702bb9-2449-4991-9628-aea091b41a4f&intent=announcement
 
 [PreviewChannel]: https://github.com/GoByeBye/Ares/blob/master/previews/hd8uBnWdsy.gif
 
