@@ -131,8 +131,8 @@ def run_wizard():
     # Default = True
     print("Next, I need to know whether or not you'd like to log every time you say the n word")
     print("Please enter 'y' or 'n' (Default y) ")
-    nword = input(cyan + "N-Word Logging: " + reset)
-    if nword.tolower is not "no" or "n":
+    nword = str(input(cyan + "N-Word Logging: " + reset))
+    if nword.lower() is not "no" or "n":
         nword = True
     else:
         nword = False
